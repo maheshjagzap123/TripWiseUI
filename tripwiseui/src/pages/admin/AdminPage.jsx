@@ -41,7 +41,7 @@ export default function AdminPage() {
   if (loading) return <div className="flex justify-center py-16"><Spinner /></div>
 
   return (
-    <div className="p-4 sm:p-6 max-w-5xl mx-auto">
+    <div className="page-enter p-4 sm:p-6 max-w-5xl mx-auto">
       <div className="flex items-center gap-2 mb-6">
         <ShieldAlert className="w-5 h-5 text-indigo-600" />
         <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>

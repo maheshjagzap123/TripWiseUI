@@ -35,19 +35,19 @@ export default function TripLayout() {
   return (
     <div className="flex flex-col h-full">
       {/* Trip Header */}
-      <div className="bg-white border-b border-gray-100 px-4 sm:px-6 py-4 flex-shrink-0">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 px-4 sm:px-6 py-4 flex-shrink-0">
         <div className="max-w-6xl mx-auto">
-          <button onClick={() => navigate('/')} className="flex items-center gap-1 text-sm text-gray-500 hover:text-indigo-600 mb-3 transition-colors">
+          <button onClick={() => navigate('/')} className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 mb-3 transition-colors">
             <ArrowLeft className="w-4 h-4" /> All Trips
           </button>
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                <h1 className="text-lg font-bold text-gray-900">{trip.tripName}</h1>
+                <h1 className="text-lg font-bold text-gray-900 dark:text-slate-100">{trip.tripName}</h1>
                 <Badge color={statusColor[trip.status] || 'gray'}>{trip.status}</Badge>
                 <Badge color="purple">{trip.tripType}</Badge>
               </div>
-              <div className="flex items-center gap-3 text-sm text-gray-500 flex-wrap">
+              <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-slate-400 flex-wrap">
                 <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />{trip.destination}</span>
                 <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{trip.startDate?.slice(0, 10)} – {trip.endDate?.slice(0, 10)}</span>
               </div>
@@ -57,7 +57,7 @@ export default function TripLayout() {
       </div>
 
       {/* Tab Nav */}
-      <div className="bg-white border-b border-gray-100 flex-shrink-0">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 flex-shrink-0">
         <div className="max-w-6xl mx-auto px-2 sm:px-6">
           <div className="flex overflow-x-auto scrollbar-hide gap-1 py-1">
             {tabs.map(({ to, label, icon: Icon, end }) => (
@@ -67,7 +67,9 @@ export default function TripLayout() {
                 end={end}
                 className={({ isActive }) =>
                   `flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                    isActive ? 'bg-indigo-50 text-indigo-700' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
+                    isActive
+                      ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400'
+                      : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                   }`
                 }
               >
@@ -80,7 +82,7 @@ export default function TripLayout() {
 
       {/* Tab Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-6xl mx-auto p-4 sm:p-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6">
           <Outlet context={{ trip, setTrip }} />
         </div>
       </div>

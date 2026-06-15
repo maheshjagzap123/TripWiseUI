@@ -37,7 +37,7 @@ export default function SettlementsPage() {
   if (loading) return <div className="flex justify-center py-16"><Spinner /></div>
 
   return (
-    <div className="space-y-5">
+    <div className="page-enter space-y-5">
       <h2 className="text-base font-bold text-gray-900">Settlements</h2>
 
       {/* My summary */}

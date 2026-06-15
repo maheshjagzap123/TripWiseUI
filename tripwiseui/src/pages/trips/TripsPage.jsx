@@ -11,7 +11,7 @@ const tripTypeColor = { Solo: 'purple', Group: 'indigo', Family: 'amber' }
 function TripCard({ trip }) {
   return (
     <Link to={`/trips/${trip.tripId}`}>
-      <Card className="p-4 hover:shadow-md transition-all hover:-translate-y-0.5 cursor-pointer">
+      <Card className="card-hover p-4 cursor-pointer">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -96,7 +96,7 @@ export default function TripsPage() {
   const filtered = filter === 'All' ? trips : trips.filter(t => t.status === filter)
 
   return (
-    <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+    <div className="page-enter px-4 sm:px-8 py-8 max-w-4xl mx-auto">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>

@@ -27,7 +27,7 @@ export default function WalletPage() {
   if (loading) return <div className="flex justify-center py-16"><Spinner /></div>
 
   return (
-    <div className="space-y-5">
+    <div className="page-enter space-y-5">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-bold text-gray-900">Trip Wallet</h2>
         <Button size="sm" onClick={() => setContributeOpen(true)}>

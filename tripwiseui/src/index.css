@@ -1,14 +1,289 @@
 @import "tailwindcss";
 
+/* ── Tailwind v4 class-based dark mode ───────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════════════════════════════ */
 @layer base {
-  * { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
   body {
-    @apply bg-gray-50 text-gray-900 font-sans;
+    font-family: ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 250ms ease, color 250ms ease;
+
+    /* Light */
+    background-color: #f9fafb; /* gray-50 */
+    color: #111827;            /* gray-900 */
+  }
+
+  /* ── Dark base ───────────────────────────────────────────────────────── */
+  .dark body {
+    background-color: #0f1117;  /* near-black, deeper than gray-900 */
+    color: #f1f5f9;             /* slate-100 */
+  }
+
+  /* Every surface that uses bg-white needs a dark equivalent.
+     Scoped to non-button elements to avoid clobbering button variants. */
+  .dark :not(button):not(a).bg-white  { background-color: #1e2330 !important; }
+  .dark :not(button):not(a).bg-gray-50 { background-color: #161b27 !important; }
+
+  /* Border colours */
+  .dark .border-gray-100 { border-color: #2d3448 !important; }
+  .dark .border-gray-200 { border-color: #374151 !important; }
+
+  /* ── Text colour overrides for dark ─────────────────────────────────── */
+  .dark .text-gray-900 { color: #f1f5f9 !important; }
+  .dark .text-gray-800 { color: #e2e8f0 !important; }
+  .dark .text-gray-700 { color: #cbd5e1 !important; }
+  .dark .text-gray-600 { color: #94a3b8 !important; }
+  .dark .text-gray-500 { color: #64748b !important; }
+  .dark .text-gray-400 { color: #4b5563 !important; }
+  .dark .text-gray-300 { color: #374151 !important; }
+
+  /* ── Inline dividers ─────────────────────────────────────────────────── */
+  .dark .border-gray-50 { border-color: #2d3448 !important; }
+
+  /* ── Tinted backgrounds (non-button) ─────────────────────────────────── */
+  .dark :not(button):not(a).bg-gray-100   { background-color: #252d3d !important; }
+  .dark :not(button):not(a).bg-indigo-50  { background-color: rgba(99,102,241,0.12) !important; }
+  .dark :not(button):not(a).bg-indigo-100 { background-color: rgba(99,102,241,0.18) !important; }
+  .dark :not(button):not(a).bg-emerald-50  { background-color: rgba(16,185,129,0.10) !important; }
+  .dark :not(button):not(a).bg-emerald-100 { background-color: rgba(16,185,129,0.15) !important; }
+  .dark :not(button):not(a).bg-red-50   { background-color: rgba(239,68,68,0.10) !important; }
+  .dark :not(button):not(a).bg-red-100  { background-color: rgba(239,68,68,0.15) !important; }
+  .dark :not(button):not(a).bg-amber-50  { background-color: rgba(245,158,11,0.10) !important; }
+  .dark :not(button):not(a).bg-amber-100 { background-color: rgba(245,158,11,0.15) !important; }
+  .dark :not(button):not(a).bg-purple-50  { background-color: rgba(139,92,246,0.10) !important; }
+  .dark :not(button):not(a).bg-purple-100 { background-color: rgba(139,92,246,0.15) !important; }
+  .dark :not(button):not(a).bg-blue-50  { background-color: rgba(59,130,246,0.10) !important; }
+  .dark :not(button):not(a).bg-blue-100 { background-color: rgba(59,130,246,0.15) !important; }
+
+  /* ── Explicit button dark styles — never let global overrides touch these */
+  /* Primary */
+  .dark button.bg-indigo-600 { background-color: #6366f1 !important; color: #ffffff !important; }
+  .dark button.bg-indigo-600:hover { background-color: #4f46e5 !important; }
+  /* Danger */
+  .dark button.bg-red-600 { background-color: #dc2626 !important; color: #ffffff !important; }
+  .dark button.bg-red-600:hover { background-color: #b91c1c !important; }
+  /* Success */
+  .dark button.bg-emerald-600 { background-color: #059669 !important; color: #ffffff !important; }
+  .dark button.bg-emerald-600:hover { background-color: #047857 !important; }
+  /* Secondary */
+  .dark button.bg-white {
+    background-color: #252d3d !important;
+    color: #e2e8f0 !important;
+    border-color: #4b5563 !important;
+  }
+  .dark button.bg-white:hover { background-color: #2d3748 !important; }
+  /* Ghost */
+  .dark button.text-gray-600 { color: #94a3b8 !important; }
+  .dark button.hover\:bg-gray-100:hover { background-color: #252d3d !important; }
+
+  /* ── Badge text colours in dark ──────────────────────────────────────── */
+  .dark .text-indigo-700 { color: #a5b4fc !important; }
+  .dark .text-emerald-700 { color: #6ee7b7 !important; }
+  .dark .text-red-700 { color: #fca5a5 !important; }
+  .dark .text-amber-700 { color: #fcd34d !important; }
+  .dark .text-purple-700 { color: #d8b4fe !important; }
+  .dark .text-blue-700 { color: #93c5fd !important; }
+
+  /* ── Inputs / selects ────────────────────────────────────────────────── */
+  .dark input,
+  .dark select,
+  .dark textarea {
+    background-color: #252d3d !important;
+    color: #f1f5f9 !important;
+    border-color: #374151 !important;
+  }
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #4b5563 !important;
+  }
+  /* date picker icon colour fix */
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  /* ── Focus rings in dark ─────────────────────────────────────────────── */
+  :focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+
+  /* ── All interactive elements — transition baseline ─────────────────── */
+  a, button, input, select, textarea, [role="button"] {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════════════════════ */
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════════════════════════════════════════ */
+@layer components {
+
+  /* ── Buttons ─────────────────────────────────────────────────────────── */
+  button:not(:disabled) {
+    transition:
+      background-color 150ms ease,
+      color            150ms ease,
+      border-color     150ms ease,
+      box-shadow       200ms ease,
+      transform        120ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity          150ms ease;
+  }
+  button:not(:disabled):hover  { transform: translateY(-1px); }
+  button:not(:disabled):active { transform: translateY(0) scale(0.97); }
+
+  /* ── Card hover lift ─────────────────────────────────────────────────── */
+  .card-hover {
+    transition:
+      box-shadow 200ms ease,
+      transform  200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+  }
+  .card-hover:hover  {
+    box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.15);
+    transform: translateY(-2px);
+  }
+  .dark .card-hover:hover {
+    box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.5);
+  }
+  .card-hover:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px -2px rgb(0 0 0 / 0.08);
+  }
+
+  /* ── Links ───────────────────────────────────────────────────────────── */
+  a { transition: color 150ms ease, opacity 150ms ease, transform 120ms ease; }
+  a:hover  { opacity: 0.9; }
+  a:active { opacity: 0.75; transform: scale(0.99); }
+
+  /* ── Inputs ──────────────────────────────────────────────────────────── */
+  input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 3px rgb(99 102 241 / 0.15);
+  }
+  .dark input:focus,
+  .dark select:focus,
+  .dark textarea:focus {
+    box-shadow: 0 0 0 3px rgb(99 102 241 / 0.30);
+  }
+
+  /* ── Nav ─────────────────────────────────────────────────────────────── */
+  nav a, nav button {
+    transition: background-color 150ms ease, color 150ms ease,
+                transform 120ms ease;
+  }
+  nav a:active, nav button:active { transform: scale(0.97); }
+
+  /* ── Modal ───────────────────────────────────────────────────────────── */
+  .modal-backdrop {
+    animation: fadeIn 180ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .modal-panel {
+    animation: slideUp 220ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* ── Page entry ──────────────────────────────────────────────────────── */
+  .page-enter {
+    animation: pageFadeIn 200ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* ── Filter / tab pills ──────────────────────────────────────────────── */
+  button[class*="rounded-full"] {
+    transition:
+      background-color 150ms ease,
+      color            150ms ease,
+      border-color     150ms ease,
+      transform        120ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  button[class*="rounded-full"]:hover  { transform: translateY(-1px) scale(1.03); }
+  button[class*="rounded-full"]:active { transform: scale(0.96); }
+
+  /* Dark override for unselected filter pills only */
+  .dark button[class*="rounded-full"]:not([class*="bg-indigo-600"]):not([class*="bg-emerald-600"]):not([class*="bg-red-600"]) {
+    background-color: #1e2330 !important;
+    border-color: #374151 !important;
+    color: #cbd5e1 !important;
+  }
+  .dark button[class*="rounded-full"]:not([class*="bg-indigo-600"]):not([class*="bg-emerald-600"]):not([class*="bg-red-600"]):hover {
+    background-color: #252d3d !important;
+  }
+
+  /* ── Lock / info banners ─────────────────────────────────────────────── */
+  .dark .bg-gray-50.border.border-gray-200 {
+    background-color: #1e2330 !important;
+    border-color: #374151 !important;
+  }
+
+  /* ── Invite link card ────────────────────────────────────────────────── */
+  .dark .bg-indigo-50.border-indigo-100 {
+    background-color: rgba(99,102,241,0.12) !important;
+    border-color: rgba(99,102,241,0.25) !important;
+  }
+  .dark .text-indigo-700 { color: #a5b4fc !important; }
+
+  /* ── Notification unread highlight ──────────────────────────────────── */
+  .dark .border-indigo-200.bg-indigo-50\/30 {
+    background-color: rgba(99,102,241,0.08) !important;
+    border-color: rgba(99,102,241,0.3) !important;
+  }
+
+  /* ── Card surface transition (smooth theme switch) ───────────────────── */
+  .bg-white, [class*="bg-gray"] {
+    transition: background-color 250ms ease, border-color 250ms ease;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KEYFRAMES
+═══════════════════════════════════════════════════════════════════════════ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SKELETON
+═══════════════════════════════════════════════════════════════════════════ */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #fafafa 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 0.5rem;
+}
+.dark .skeleton {
+  background: linear-gradient(90deg, #1e2330 25%, #252d3d 50%, #1e2330 75%);
+  background-size: 200% 100%;
 }

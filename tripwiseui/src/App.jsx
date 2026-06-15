@@ -1,15 +1,10 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 
-// Layouts
 import AppLayout from './components/layout/AppLayout'
-
-// Auth pages
 import LoginPage from './pages/auth/LoginPage'
-import RegisterPage from './pages/auth/RegisterPage'
-import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
+import CompleteProfilePage from './pages/CompleteProfilePage'
 
-// Trip pages
 import TripsPage from './pages/trips/TripsPage'
 import TripLayout from './pages/trips/TripLayout'
 import TripDashboard from './pages/trips/TripDashboard'
@@ -20,40 +15,64 @@ import SettlementsPage from './pages/trips/SettlementsPage'
 import WalletPage from './pages/trips/WalletPage'
 import AnalyticsPage from './pages/trips/AnalyticsPage'
 
-// Other pages
 import NotificationsPage from './pages/NotificationsPage'
 import ProfilePage from './pages/ProfilePage'
-import AdminPage from './pages/admin/AdminPage'
 
+// Redirects to /login if not authenticated
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth()
   return isAuthenticated ? children : <Navigate to="/login" replace />
 }
 
+// Redirects away from /login if already authenticated
 function PublicRoute({ children }) {
   const { isAuthenticated } = useAuth()
   return isAuthenticated ? <Navigate to="/" replace /> : children
 }
 
-function AdminRoute({ children }) {
+// Redirects to /complete-profile if user hasn't set their name yet.
+// The profile page itself is always allowed through so they can save.
+function ProfileGate({ children }) {
   const { user } = useAuth()
-  return user?.role === 'Admin' ? children : <Navigate to="/" replace />
+  const location = useLocation()
+  const profileComplete = !!user?.fullName?.trim()
+  const allowed = location.pathname === '/complete-profile' || location.pathname === '/profile'
+
+  if (!profileComplete && !allowed) {
+    return <Navigate to="/complete-profile" replace />
+  }
+  return children
 }
 
 export default function App() {
   return (
     <Routes>
-      {/* Public routes */}
+      {/* Public */}
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
-      <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
-      <Route path="/forgot-password" element={<PublicRoute><ForgotPasswordPage /></PublicRoute>} />
 
-      {/* Protected routes */}
-      <Route element={<PrivateRoute><AppLayout /></PrivateRoute>}>
+      {/* Complete profile — authenticated but no name yet */}
+      <Route
+        path="/complete-profile"
+        element={
+          <PrivateRoute>
+            <CompleteProfilePage />
+          </PrivateRoute>
+        }
+      />
+
+      {/* All app routes — authenticated + profile complete */}
+      <Route
+        element={
+          <PrivateRoute>
+            <ProfileGate>
+              <AppLayout />
+            </ProfileGate>
+          </PrivateRoute>
+        }
+      >
         <Route index element={<TripsPage />} />
         <Route path="notifications" element={<NotificationsPage />} />
         <Route path="profile" element={<ProfilePage />} />
-        <Route path="admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
         <Route path="trips/:tripId" element={<TripLayout />}>
           <Route index element={<TripDashboard />} />
@@ -66,7 +85,6 @@ export default function App() {
         </Route>
       </Route>
 
-      {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

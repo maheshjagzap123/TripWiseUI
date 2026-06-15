@@ -43,7 +43,7 @@ export default function MembersPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="page-enter space-y-4">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-base font-bold text-gray-900">Members</h2>
